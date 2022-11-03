@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/typography/color.dart';
+import 'package:movie_app/utils/color.dart';
 
 Color kColorMain = HexColor.fromHex('#0a1e40');
 Color kColorWhite = HexColor.fromHex('#FFFFFF');

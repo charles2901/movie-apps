@@ -1,8 +1,10 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:movie_app/helper/asset_constant.dart';
-import 'package:movie_app/typography/k_textstyle.dart';
+import 'package:movie_app/routes/route_name.dart';
+import 'package:movie_app/utils/k_textstyle.dart';
 import 'package:movie_app/widget/base_widget.dart';
 
 class SplashPage extends StatelessWidget {
@@ -25,7 +27,7 @@ class SplashPage extends StatelessWidget {
                     ),
                   ],
                   isRepeatingAnimation: false,
-                  onFinished: () => print('HERE'),
+                  onFinished: () => Get.offAllNamed(RouteName.main),
                 ),
               ),
             ),

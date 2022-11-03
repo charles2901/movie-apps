@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/typography/color.dart';
-import 'package:movie_app/typography/k_color.dart';
+import 'package:movie_app/utils/k_color.dart';
 
 class BaseWidget extends StatelessWidget {
   final Widget child;
