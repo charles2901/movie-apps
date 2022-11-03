@@ -7,9 +7,11 @@ import 'package:movie_app/utils/global_k.dart';
 class MovieServices {
   static var client = http.Client();
 
-  static Future<List<Movie>?> getNowPlaying({language = 'en-US'}) async {
+  static Future<List<Movie>?> getNowPlaying(
+      {language = 'en-US', page = '1'}) async {
     var response = await http.get(
-      Uri.parse('$kBaseUrl/movie/now_playing?api_key=$apiKey&language=en-US'),
+      Uri.parse(
+          '$kBaseUrl/movie/now_playing?api_key=$apiKey&language=en-US&page=$page'),
     );
 
     if (response.statusCode == 200) {
