@@ -1,22 +1,23 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_app/utils/global_k.dart';
-import 'package:movie_app/utils/k_color.dart';
 
 class MovieCard extends StatelessWidget {
   final String url;
-  final int position;
-  final double value;
+  final double radius;
+  final double margin;
 
-  const MovieCard(this.url, {required this.position, required this.value});
+  const MovieCard(
+    this.url, {
+    required this.radius,
+    required this.margin,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      transform: Matrix4.identity()..rotateX((value - position) / 2.5),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: margin),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(radius),
         child: CachedNetworkImage(
           imageUrl: url,
           fit: BoxFit.fill,

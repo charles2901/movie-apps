@@ -10,7 +10,7 @@ class TStyle {
   static TextStyle headline = TextStyle(
     color: kColorWhite,
     fontFamily: 'NetflixSans',
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: FontWeight.w700,
   );
 }
