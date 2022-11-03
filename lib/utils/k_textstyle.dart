@@ -6,4 +6,11 @@ class TStyle {
     color: kColorLogo,
     fontFamily: 'BebasNeue',
   );
+
+  static TextStyle headline = TextStyle(
+    color: kColorWhite,
+    fontFamily: 'NetflixSans',
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+  );
 }
