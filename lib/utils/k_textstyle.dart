@@ -13,4 +13,10 @@ class TStyle {
     fontSize: 22,
     fontWeight: FontWeight.w700,
   );
+
+  static TextStyle text = TextStyle(
+    color: kColorWhite,
+    fontFamily: 'NetflixSans',
+    fontSize: 14,
+  );
 }
