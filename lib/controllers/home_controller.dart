@@ -25,6 +25,18 @@ class HomeController extends GetxController {
   var errorMsgNowPlaying = ''.obs;
   List<Movie> nowPlayingMovies = <Movie>[].obs;
 
+  // FOR Popular in Indonesia
+  var errorPopularID = false.obs;
+  var loadingPopularID = false.obs;
+  var errorMsgPopularID = ''.obs;
+  List<Movie> popularIDMovies = <Movie>[].obs;
+
+  // FOR Top Rated in Indoesia
+  var errorTopRatedID = false.obs;
+  var loadingTopRatedID = false.obs;
+  var errorMsgTopRatedID = ''.obs;
+  List<Movie> topRatedIDMovies = <Movie>[].obs;
+
   // Popular Movies
   var loadingPopular = false.obs;
   var errorPopular = false.obs;
@@ -52,6 +64,8 @@ class HomeController extends GetxController {
     getPopularMovies();
     getTopRatedMovies();
     getUpcomingMovies();
+    getPopularIDMovies();
+    getTopRatedIDMovies();
   }
 
   void getPopularMovies() async {
@@ -145,6 +159,52 @@ class HomeController extends GetxController {
     }
   }
 
+  void getPopularIDMovies() async {
+    try {
+      loadingPopularID.value = true;
+      setErrorPopularID(false);
+      var list = await MovieServices.getPopular(region: 'ID');
+
+      if (list != null) {
+        popularIDMovies.clear();
+        popularIDMovies.addAll(list);
+      } else {
+        setErrorPopularID(true);
+      }
+      loadingPopularID.value = false;
+    } on SocketException {
+      loadingPopularID.value = false;
+      setErrorPopularID(true, message: 'Internet Connection Error');
+    } catch (err) {
+      logPrint('ERR getPopularMovies : $err');
+      loadingPopularID.value = false;
+      setErrorPopularID(true);
+    }
+  }
+
+  void getTopRatedIDMovies() async {
+    try {
+      loadingTopRatedID.value = true;
+      setErrorTopRatedID(false);
+      var list = await MovieServices.getTopRated(region: 'ID');
+
+      if (list != null) {
+        topRatedIDMovies.clear();
+        topRatedIDMovies.addAll(list);
+      } else {
+        setErrorTopRatedID(true);
+      }
+      loadingTopRatedID.value = false;
+    } on SocketException {
+      loadingTopRatedID.value = false;
+      setErrorTopRatedID(true, message: 'Internet Connection Error');
+    } catch (err) {
+      logPrint('ERR getPopularMovies : $err');
+      loadingTopRatedID.value = false;
+      setErrorTopRatedID(true);
+    }
+  }
+
   void setErrorUpcoming(bool value,
       {String message = 'Something went error.'}) {
     errorUpcoming.value = value;
@@ -163,7 +223,26 @@ class HomeController extends GetxController {
     errorMsgNowPlaying.value = value ? message : '';
   }
 
-  void setErrorPopular(bool value, {String message = 'Something went error.'}) {
+  void setErrorPopularID(
+    bool value, {
+    String message = 'Something went error.',
+  }) {
+    errorPopularID.value = value;
+    errorMsgPopularID.value = value ? message : '';
+  }
+
+  void setErrorTopRatedID(
+    bool value, {
+    String message = 'Something went error.',
+  }) {
+    errorTopRatedID.value = value;
+    errorMsgTopRatedID.value = value ? message : '';
+  }
+
+  void setErrorPopular(
+    bool value, {
+    String message = 'Something went error.',
+  }) {
     errorPopular.value = value;
     errorMsgPopular.value = value ? message : '';
   }

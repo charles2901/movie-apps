@@ -26,10 +26,10 @@ class MovieServices {
   }
 
   static Future<List<Movie>?> getPopular(
-      {language = 'en-US', page = '1'}) async {
+      {language = 'en-US', page = '1', region = ''}) async {
     var response = await http.get(
       Uri.parse(
-          '$kBaseUrl/movie/popular?api_key=$apiKey&language=en-US&page=$page'),
+          '$kBaseUrl/movie/popular?api_key=$apiKey&language=en-US&page=$page&region=$region'),
     );
 
     if (response.statusCode == 200) {
@@ -44,10 +44,10 @@ class MovieServices {
   }
 
   static Future<List<Movie>?> getTopRated(
-      {language = 'en-US', page = '1'}) async {
+      {language = 'en-US', page = '1', region = ''}) async {
     var response = await http.get(
       Uri.parse(
-          '$kBaseUrl/movie/top_rated?api_key=$apiKey&language=en-US&page=$page'),
+          '$kBaseUrl/movie/top_rated?api_key=$apiKey&language=en-US&page=$page&region=$region'),
     );
 
     if (response.statusCode == 200) {

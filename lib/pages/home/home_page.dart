@@ -13,11 +13,13 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseWidget(
       child: RefreshIndicator(
-        color: kColorMain,
+        color: kColorWhite,
+        backgroundColor: Colors.transparent,
         onRefresh: () async {
           controller.fetchAll();
         },
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -54,6 +56,28 @@ class HomePage extends StatelessWidget {
                   isError: controller.errorNowPlaying.value,
                   errorMessage: controller.errorMsgNowPlaying.value,
                   onRefresh: controller.getNowPlayingMovies,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Obx(
+                () => SectionHomePage(
+                  title: 'Popular in Indonesia',
+                  movies: controller.popularIDMovies,
+                  isLoading: controller.loadingPopularID.value,
+                  isError: controller.errorPopularID.value,
+                  errorMessage: controller.errorMsgPopularID.value,
+                  onRefresh: controller.getPopularIDMovies,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Obx(
+                () => SectionHomePage(
+                  title: 'Top in Indonesia',
+                  movies: controller.topRatedIDMovies,
+                  isLoading: controller.loadingTopRatedID.value,
+                  isError: controller.errorTopRatedID.value,
+                  errorMessage: controller.errorMsgTopRatedID.value,
+                  onRefresh: controller.getTopRatedIDMovies,
                 ),
               ),
               const SizedBox(height: 16),
