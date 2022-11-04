@@ -48,6 +48,7 @@ class PopularSection extends StatelessWidget {
                                   (controller.currentPageValue.value - index) /
                                       2.5),
                             child: MovieCard(
+                              controller.popularMovies[index].id,
                               controller.popularMovies[index].posterPath,
                               radius: 15,
                               margin: 16,

@@ -28,10 +28,12 @@ class SectionHomePage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(title, style: TStyle.headline),
-        ),
+        movies.isEmpty
+            ? const SizedBox()
+            : Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(title, style: TStyle.headline),
+              ),
         const SizedBox(height: 16),
         isError
             ? ErrorApiWidget(message: errorMessage, onRefresh: onRefresh)
@@ -48,8 +50,12 @@ class SectionHomePage extends StatelessWidget {
                             .map(
                               (movie) => SizedBox(
                                 width: Get.width * 0.35,
-                                child: MovieCard(movie.posterPath,
-                                    radius: 8, margin: 4),
+                                child: MovieCard(
+                                  movie.id,
+                                  movie.posterPath,
+                                  radius: 8,
+                                  margin: 4,
+                                ),
                               ),
                             )
                             .toList(),

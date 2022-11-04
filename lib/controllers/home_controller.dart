@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:movie_app/model/detail_movie.dart';
 import 'package:movie_app/model/movie.dart';
+import 'package:movie_app/pages/detail_movies/detail_movies.dart';
 import 'package:movie_app/services/movie_services.dart';
 import 'package:movie_app/utils/global_k.dart';
 
@@ -47,6 +49,65 @@ class HomeController extends GetxController {
   );
   var currentPageValue = 0.0.obs;
   List<Movie> popularMovies = <Movie>[].obs;
+
+  // FOR DETAIL MOVIES
+  var id = 0.obs;
+  var isDetailError = false.obs;
+  var messageDetailError = ''.obs;
+  var loadingDetail = false.obs;
+  Rxn<DetailMovie> detailMovie = Rxn<DetailMovie>();
+
+  //SIMILIAR MOVIE
+  var loadingSimiliar = false.obs;
+  var errorSimiliar = false.obs;
+  var errorMsgSimiliar = ''.obs;
+  List<Movie> similiarMovies = <Movie>[].obs;
+
+  void setUpDetail(int idMovie) {
+    id.value = idMovie;
+    detailMovie.value = null;
+    isDetailError.value = false;
+    messageDetailError.value = '';
+  }
+
+  void showDetails(int idMovie, {isRefresh = false}) {
+    if (id.value > 0 && !isRefresh) {
+      Get.back();
+    }
+    fetchDetailMovies(idMovie);
+    getSimiliarMovie(idMovie);
+    if (!isRefresh) {
+      Get.bottomSheet(DetailMovies(), isScrollControlled: true);
+    }
+  }
+
+  void setErrorDetail({String message = 'Something went error.'}) {
+    isDetailError.value = true;
+    messageDetailError.value = message;
+  }
+
+  void fetchDetailMovies(int idMovie) async {
+    try {
+      loadingDetail.value = true;
+      setUpDetail(idMovie);
+      var response = await MovieServices.getDetails(idMovie);
+
+      if (response != null) {
+        detailMovie.value = response;
+      } else {
+        setErrorDetail();
+        detailMovie.value = null;
+      }
+      loadingDetail.value = false;
+    } on SocketException {
+      loadingDetail.value = false;
+      setErrorDetail(message: 'Internet Connection Error');
+    } catch (err) {
+      loadingDetail.value = false;
+      setErrorDetail();
+      logPrint('ERR fetchDetailMovies : $err');
+    }
+  }
 
   @override
   void onInit() {
@@ -205,6 +266,29 @@ class HomeController extends GetxController {
     }
   }
 
+  void getSimiliarMovie(int id) async {
+    try {
+      loadingSimiliar.value = true;
+      setErrorSimiliar(false);
+      var list = await MovieServices.getSimiliarMovies(id);
+
+      if (list != null) {
+        similiarMovies.clear();
+        similiarMovies.addAll(list);
+      } else {
+        setErrorSimiliar(true);
+      }
+      loadingSimiliar.value = false;
+    } on SocketException {
+      loadingSimiliar.value = false;
+      setErrorSimiliar(true, message: 'Internet Connection Error');
+    } catch (err) {
+      logPrint('ERR getSimiliarMovie : $err');
+      loadingSimiliar.value = false;
+      setErrorSimiliar(true);
+    }
+  }
+
   void setErrorUpcoming(bool value,
       {String message = 'Something went error.'}) {
     errorUpcoming.value = value;
@@ -237,6 +321,14 @@ class HomeController extends GetxController {
   }) {
     errorTopRatedID.value = value;
     errorMsgTopRatedID.value = value ? message : '';
+  }
+
+  void setErrorSimiliar(
+    bool value, {
+    String message = 'Something went error.',
+  }) {
+    errorSimiliar.value = value;
+    errorMsgSimiliar.value = value ? message : '';
   }
 
   void setErrorPopular(
